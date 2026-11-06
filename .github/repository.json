@@ -1,0 +1,17 @@
+{
+  "owner": "LoganLazy",
+  "name": "nebula-panel",
+  "description": "Nebula Deploy 的本机可视化控制台：服务器与项目管理、部署计划审阅、异步任务及日志。",
+  "homepage": "",
+  "private": false,
+  "has_issues": true,
+  "has_wiki": false,
+  "topics": [
+    "deployment",
+    "dashboard",
+    "ssh",
+    "self-hosted",
+    "python",
+    "linux"
+  ]
+}

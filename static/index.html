@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nebula Panel</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">N</span><div><b>Nebula</b><small>Panel</small></div></div>
+    <nav>
+      <a href="#overview" class="active">总览</a>
+      <a href="#servers">服务器</a>
+      <a href="#projects">项目</a>
+      <a href="#tasks">任务中心</a>
+    </nav>
+    <div class="side-note">本机控制端<br><span>Agentless SSH</span></div>
+  </aside>
+
+  <main>
+    <header>
+      <div><p class="eyebrow">LOCAL OPERATIONS CONSOLE</p><h1>部署控制中心</h1></div>
+      <div class="status-row"><span id="deploy-status" class="pill">检测中</span><span id="ai-status" class="pill">AI 检测中</span></div>
+    </header>
+
+    <section id="overview" class="stats">
+      <article><span>服务器</span><strong id="server-count">0</strong><small>已纳管节点</small></article>
+      <article><span>项目</span><strong id="project-count">0</strong><small>本地源码配置</small></article>
+      <article><span>运行任务</span><strong id="running-count">0</strong><small>后台执行队列</small></article>
+      <article class="accent"><span>执行架构</span><strong>SSH</strong><small>远端零常驻服务</small></article>
+    </section>
+
+    <section class="grid two">
+      <article id="servers" class="panel">
+        <div class="panel-head"><div><p class="eyebrow">INFRASTRUCTURE</p><h2>服务器</h2></div></div>
+        <form id="server-form" class="form-grid">
+          <label>名称<input name="name" placeholder="测试服务器" required></label>
+          <label>地址<input name="host" placeholder="192.0.2.10" required></label>
+          <label>用户<input name="user" value="deploy" required></label>
+          <label>端口<input name="port" type="number" value="22" min="1" max="65535" required></label>
+          <label class="wide">SSH 私钥路径<input name="identity_file" placeholder="/home/user/.ssh/id_ed25519"></label>
+          <button class="primary wide" type="submit">添加服务器</button>
+        </form>
+        <div id="server-list" class="item-list empty">暂无服务器</div>
+      </article>
+
+      <article id="projects" class="panel">
+        <div class="panel-head"><div><p class="eyebrow">SOURCE</p><h2>项目</h2></div></div>
+        <form id="project-form" class="form-grid">
+          <label>名称<input name="name" placeholder="我的应用" required></label>
+          <label>源码上限 MB<input name="max_source_mb" type="number" value="512" min="1" max="4096"></label>
+          <label class="wide">本地源码目录<input name="source_dir" placeholder="/home/user/my-app" required></label>
+          <label class="wide">服务器部署目录<input name="remote_dir" placeholder="/opt/my-app" required></label>
+          <label>AI Base URL<input name="ai_base_url" placeholder="https://api.example.com/v1" required></label>
+          <label>模型<input name="ai_model" placeholder="compatible-model" required></label>
+          <button class="primary wide" type="submit">添加项目</button>
+        </form>
+        <div id="project-list" class="item-list empty">暂无项目</div>
+      </article>
+    </section>
+
+    <section id="tasks" class="panel task-panel">
+      <div class="panel-head">
+        <div><p class="eyebrow">AUTOMATION</p><h2>任务中心</h2></div>
+        <button id="refresh" class="ghost">刷新</button>
+      </div>
+      <form id="task-form" class="task-bar">
+        <select name="server_id" id="task-server" required><option value="">选择服务器</option></select>
+        <select name="project_id" id="task-project"><option value="">选择项目</option></select>
+        <button name="action" value="inspect" class="ghost">检查服务器</button>
+        <button name="action" value="plan" class="primary">生成 AI 计划</button>
+      </form>
+      <div class="task-options">
+        <label class="check"><input id="deploy-swap" type="checkbox"> 低内存时允许临时 swap</label>
+        <label>失败自动修复
+          <select id="deploy-retries"><option value="0">关闭</option><option value="1">最多 1 次</option><option value="2">最多 2 次</option></select>
+        </label>
+        <span>这些选项仅在点击“按此计划部署”时生效</span>
+      </div>
+      <div id="job-list" class="jobs empty">还没有执行记录</div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
