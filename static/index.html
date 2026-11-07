@@ -40,7 +40,8 @@
           <label>用户<input name="user" value="deploy" required></label>
           <label>端口<input name="port" type="number" value="22" min="1" max="65535" required></label>
           <label class="wide">SSH 私钥路径<input name="identity_file" placeholder="/home/user/.ssh/id_ed25519"></label>
-          <button class="primary wide" type="submit">添加服务器</button>
+          <button id="server-submit" class="primary wide" type="submit">添加服务器</button>
+          <button id="server-edit-cancel" class="ghost wide hidden" type="button">取消编辑</button>
         </form>
         <div id="server-list" class="item-list empty">暂无服务器</div>
       </article>
@@ -54,7 +55,8 @@
           <label class="wide">服务器部署目录<input name="remote_dir" placeholder="/opt/my-app" required></label>
           <label>AI Base URL<input name="ai_base_url" placeholder="https://api.example.com/v1" required></label>
           <label>模型<input name="ai_model" placeholder="compatible-model" required></label>
-          <button class="primary wide" type="submit">添加项目</button>
+          <button id="project-submit" class="primary wide" type="submit">添加项目</button>
+          <button id="project-edit-cancel" class="ghost wide hidden" type="button">取消编辑</button>
         </form>
         <div id="project-list" class="item-list empty">暂无项目</div>
       </article>
@@ -80,7 +82,22 @@
       </div>
       <div id="job-list" class="jobs empty">还没有执行记录</div>
     </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head"><div><p class="eyebrow">AUDIT</p><h2>操作记录</h2></div></div>
+      <div id="audit-list" class="audit-list empty">暂无操作记录</div>
+    </section>
   </main>
+
+  <div id="token-prompt" class="token-overlay hidden">
+    <div class="token-card">
+      <h2>输入访问令牌</h2>
+      <p>面板启动时在终端打印了一次访问令牌；也可以启动前设置环境变量 NEBULA_PANEL_TOKEN 指定令牌。令牌只保存在当前标签页，关闭即失效。</p>
+      <input id="token-input" type="password" placeholder="粘贴访问令牌" autocomplete="off">
+      <button id="token-submit" class="primary">进入面板</button>
+      <p id="token-error" class="token-error"></p>
+    </div>
+  </div>
 
   <div id="toast" class="toast"></div>
   <script src="/static/app.js"></script>
